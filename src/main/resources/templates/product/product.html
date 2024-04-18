@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editProduct}">Product edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{productcard}">Product's card</h3>
+    <form enctype="multipart/form-data" method="post"
+          th:action="@{/products/{idProduct}/update(idProduct=${product.id})}" th:object="${product}">
+
+        <label for="id"><span th:text="#{id}"></span>:
+            <input id="id" name="id" readonly th:value="*{id}" type="number">
+        </label><br/><br/>
+        <label for="name"><span th:text="#{name}"></span>:
+            <input id="name" name="name" th:value="*{name}" type="text">
+        </label><br><br>
+        <label for="purchasePrice"><span th:text="#{purchaseprice}"></span>:
+            <input id="purchasePrice" name="purchasePrice" placeholder="0.0" step="0.01" th:value="*{purchasePrice}"
+                   type="number">
+        </label><br><br>
+        <label for="category"><span th:text="#{category}"></span>:
+            <select id="category" name="categoryId">
+                <option th:each="category : ${categories}"
+                        th:selected="${category.id == product.category.id}" th:text="${category.name}"
+                        th:value="${category.id}"></option>
+            </select>
+        </label><br/><br/>
+        <label for="baseUnit"><span th:text="#{baseunit}"></span>:
+            <select id="baseUnit" name="baseUnitId">
+                <option th:each="baseUnit : ${baseUnits}"
+                        th:selected="${baseUnit.id == product.baseUnit.id}" th:text="${baseUnit.shortName}"
+                        th:value="${baseUnit.id}"></option>
+            </select>
+        </label><br/><br/>
+
+        <div th:if="${product.image != null}">
+            <img alt="Product image" th:src="@{/api/v1/products/{productId}/image(productId=*{id})}">
+        </div>
+        <label for="image"><span th:text="#{image}"></span>:
+            <input id="image" name="image" type="file">
+        </label><br><br>
+
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+    <br/>
+    <div>
+        <table>
+            <caption><h4 th:text="#{units}">Units</h4></caption>
+            <thead>
+            <tr>
+                <th th:text="#{unit}">Unit</th>
+                <th th:text="#{ratio}">Ratio</th>
+                <th colspan="1">
+                    <a th:href="@{|/productunits/${product.id}/add|}" th:text="#{addunit}">add unit</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="unit : ${units}">
+                <td th:text="${unit.unitReadDto.name}"></td>
+                <td th:text="${unit.ratio}"></td>
+                <!--                <td>-->
+                <!--                    <a th:href="@{|/productunits/${product.id}/${unit.id}|}">edit</a>-->
+                <!--                </td>-->
+                <td>
+                    <a th:href="@{|/productunits/${product.id}/${unit.id}/delete|}" th:text="#{delete}">delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <div>
+        <table>
+            <caption><h4 th:text="#{comments}">Comments</h4></caption>
+            <thead>
+            <tr>
+                <th th:text="#{textcom}">Text</th>
+                <th colspan="1">
+                    <a th:href="@{|/comments/${product.id}/add|}" th:text="#{addcomment}">add comment</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="productComment : ${comments}">
+                <td th:text="${productComment.value}"></td>
+                <!--                <td>-->
+                <!--                    <a th:href="@{|/comments/${product.id}/${productComment.key}|}">edit</a>-->
+                <!--                </td>-->
+                <td>
+                    <a th:href="@{|/comments/${product.id}/${productComment.key}/delete|}"
+                       th:text="#{delete}">delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

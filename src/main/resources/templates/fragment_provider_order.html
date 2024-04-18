@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="providerOrderHead">
+    <form method="post" th:action="@{/providerorders/{idOrder}/update(idOrder=${order.id})}" th:object="${order}">
+        <label for="id">№:
+            <input id="id" name="id" readonly th:value="*{id}" type="number">
+        </label><br/><br/>
+        <label for="orderDate"><span th:text="#{date}"></span>:
+            <input id="orderDate" name="orderDate" th:value="*{orderDate}" type="date">
+        </label><br><br>
+        <label for="comment"><span th:text="#{comment}"></span>:
+            <input id="comment" name="comment" th:value="*{comment}" type="text">
+        </label><br><br>
+        <label for="commit"><span th:text="#{commit}"></span>:
+            <input th:field="*{commit}" type="checkbox">
+        </label><br><br>
+
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+
+<div th:fragment="showHeadTable">
+    <thead>
+    <tr>
+        <th th:text="#{id}">Id</th>
+        <th th:text="#{product}">Product</th>
+        <th th:text="#{quality}">Quality</th>
+        <th th:text="#{unit}">Unit</th>
+        <th th:text="#{amount}">Amount</th>
+        <th colspan="1">
+            <span th:if="${!order.commit}">
+                <a th:href="@{|/providerorderlines/${order.id}/add|}" th:text="#{addline}">add line</a>
+            </span>
+        </th>
+    </tr>
+    </thead>
+</div>
+
+<div th:fragment="showTable">
+    <tr th:each="line : ${orderlines}">
+        <td th:text="${line.id}"></td>
+        <td th:text="${line.getProduct().name}"></td>
+        <td th:text="${line.getQuality().name}"></td>
+        <td th:text="${line.getUnit().unitReadDto.shortName}"></td>
+        <td th:text="${line.getAmount()}"></td>
+        <!--                <td>-->
+        <!--                    <a th:href="@{|/productunits/${product.id}/${unit.id}|}">edit</a>-->
+        <!--                </td>-->
+        <td>
+            <span th:if="${!order.commit}">
+                <a th:href="@{|/providerorderlines/${order.id}/${line.id}/delete|}" th:text="#{delete}">delete</a>
+            </span>
+        </td>
+    </tr>
+</div>
+
+<div th:fragment="providerOrderBottom">
+    <table>
+        <caption><h4 th:text="#{orderlines}">Order lines</h4></caption>
+        <div th:insert="~{fragment_provider_order :: showHeadTable}"></div>
+        <tbody>
+        <div th:insert="~{fragment_provider_order :: showTable}"></div>
+        </tbody>
+    </table>
+</div>
+
+<div th:fragment="providerOrderBottomAdd">
+    <table>
+        <caption><h4 th:text="#{addorderline}">Add order line</h4></caption>
+        <div th:insert="~{fragment_provider_order :: showHeadTable}"></div>
+        <tbody>
+        <div th:insert="~{fragment_provider_order :: showTable}"></div>
+        </tbody>
+        <tr>
+            <form method="get" th:action="@{/providerorderlines/{idOrder}/add(idOrder=${order.id})}"
+                  th:object="${orderLine}">
+                <td><input hidden name="providerOrderId" readonly th:value="${order.id}" type="number"></td>
+                <td>
+                    <select name="productId">
+                        <option th:each="product : ${products}" th:text="${product.name}"
+                                th:value="${product.id}"></option>
+                    </select>
+                    <button th:text="#{ok}" type="submit">Ok!</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </form>
+        </tr>
+    </table>
+</div>
+
+<div th:fragment="providerOrderBottomAdd2">
+    <table>
+        <caption><h4 th:text="#{addorderline}">Add order line</h4></caption>
+        <div th:insert="~{fragment_provider_order :: showHeadTable}"></div>
+        <tbody>
+        <div th:insert="~{fragment_provider_order :: showTable}"></div>
+        <tr>
+            <form method="post" th:action="@{/providerorderlines}" th:object="${orderLine}">
+                <td>
+                    <input hidden name="providerOrderId" readonly th:value="${order.id}" type="number">
+                    <input hidden name="productId" readonly th:value="*{productId}" type="number">
+                </td>
+                <td th:text="${product.name}">
+                </td>
+                <td>
+                    <select id="quality" name="qualityId">
+                        <option th:each="quality : ${qualities}" th:text="${quality.name}"
+                                th:value="${quality.id}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select id="productUnit" name="productUnitId">
+                        <option th:each="productUnit : ${productUnits}" th:text="${productUnit.unitReadDto.shortName}"
+                                th:value="${productUnit.id}"></option>
+                    </select>
+                </td>
+                <td>
+                    <input name="amount" th:value="*{amount}" type="number">
+                </td>
+                <td>
+                    <button th:text="#{ok}" type="submit">Ok!</button>
+                </td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: errorLine}"></div>
+</div>
+
+</body>
+</html>

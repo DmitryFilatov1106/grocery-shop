@@ -1,0 +1,9 @@
+ext {
+    versions = [
+            'testcontainers': '1.18.2',
+            'springdoc'     : '2.4.0',
+            'jpamodelgen'   : '6.4.4.Final',
+            'ehcache'       : '3.10.8',
+            'postgresql'    : '42.7.3'
+    ]
+}

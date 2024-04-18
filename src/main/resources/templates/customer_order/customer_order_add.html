@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingCustomerOrder}">Adding a customer order</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{customerordercard}">Customer order's card</h3>
+    <form method="post" th:action="@{/customerorders}" th:object="${order}">
+        <label for="orderDate"><span th:text="#{date}"></span>:
+            <input id="orderDate" name="orderDate" th:value="*{orderDate}" type="date">
+        </label><br><br>
+        <label for="customer"><span th:text="#{customer}"></span>:
+            <select id="customer" name="customerId">
+                <option th:each="customer : ${customers}" th:text="${customer.name}" th:value="${customer.id}"></option>
+            </select>
+        </label><br/><br/>
+        <label for="project"><span th:text="#{project}"></span>:
+            <select id="project" name="projectId">
+                <option th:each="project : ${projects}" th:text="${project.name}" th:value="${project.id}"></option>
+            </select>
+        </label><br/><br/>
+        <label for="comment"><span th:text="#{comment}"></span>:
+            <input id="comment" name="comment" th:value="*{comment}" type="text">
+        </label><br><br>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

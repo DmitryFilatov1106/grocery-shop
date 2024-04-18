@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{qualities}">Qualities</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/qualities">
+        <label for="name"><span th:text="#{filt.name}">Name:</span>
+            <input id="name" name="name" th:value="${filter.name}" type="text">
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/qualities">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{qualities}">Qualities</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th colspan="2">
+                <a href="/qualities/add" th:text="#{addQuality}">add quality</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="quality : ${data.content}">
+            <td th:text="${quality.id}"></td>
+            <td th:text="${quality.name}"></td>
+            <td>
+                <a th:href="@{|/qualities/${quality.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/qualities/${quality.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{users}">Users</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/users">
+        <label for="username"><span th:text="#{filt.username}">Login:</span>
+            <input id="username" name="username" th:value="${filter.username}" type="text">
+        </label>
+        <label for="firstname"><span th:text="#{filt.firstname}">Firstname:</span>
+            <input id="firstname" name="firstname" th:value="${filter.firstname}" type="text">
+        </label>
+        <label for="lastname"><span th:text="#{filt.lastname}">Lastname:</span>
+            <input id="lastname" name="lastname" th:value="${filter.lastname}" type="text">
+        </label>
+        <label for="role"><span th:text="#{filt.role}">Role:</span>
+            <select id="role" name="role">
+                <option th:each="role : ${roles}" th:selected="${role == filter.role}"
+                        th:text="${role}"></option>
+            </select>
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/users">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{users}">Users</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{username}">Login</th>
+            <th th:text="#{firstname}">Firstname</th>
+            <th th:text="#{lastname}">Lastname</th>
+            <th th:text="#{role}">Role</th>
+            <th colspan="2">
+                <a href="/users/add" th:text="#{addUser}">add user</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${data.content}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.firstname}"></td>
+            <td th:text="${user.lastname}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <a th:href="@{|/users/${user.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/users/${user.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

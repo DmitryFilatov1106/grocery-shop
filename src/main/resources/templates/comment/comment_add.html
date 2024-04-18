@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingproductcomment}">Adding a product comment</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{productcommentcard}">Product comment's card</h3>
+
+    <table>
+        <caption><h3 th:text="#{product}">Product</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{category}">Category</th>
+            <th th:text="#{baseunit}">Base unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.category.getName()}"></td>
+            <td th:text="${product.baseUnit.getShortName()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/><br/>
+
+    <form method="post" th:action="@{/comments}" th:object="${comment}">
+        <input hidden id="productId" name="productId" th:value="${product.id}" type="number">
+        <label for="comment"><span th:text="#{comment}"></span>:
+            <input id="comment" name="comment" th:value="*{comment}" type="text">
+        </label><br/><br/>
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

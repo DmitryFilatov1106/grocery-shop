@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingProviderOrder}">Adding a provider order</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{providerordercard}">Provider order's card</h3>
+    <form method="post" th:action="@{/providerorders}" th:object="${order}">
+        <label for="orderDate"><span th:text="#{date}"></span>:
+            <input id="orderDate" name="orderDate" th:value="*{orderDate}" type="date">
+        </label><br><br>
+        <label for="comment"><span th:text="#{comment}"></span>:
+            <input id="comment" name="comment" th:value="*{comment}" type="text">
+        </label><br><br>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

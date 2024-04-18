@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: post
+
+logging.file:
+  path: ./logs/grocery
+  name: ${logging.file.path}/grocery.log
+
+app:
+  image:
+    product: ./images/products
+    user: ./images/users
+  init:
+    admin:
+      name: admin
+      login: a@mail.ru
+      password: 123

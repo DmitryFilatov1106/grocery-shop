@@ -1,0 +1,23 @@
+spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: post
+  liquibase:
+#    change-log: classpath:liquibase/db.changelog.yml
+#    enabled: true
+    default-schema: public
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl.auto: validate
+
+app:
+  image:
+    product: ./images/products
+    user: ./images/users
+  init:
+    admin:
+      name: admin
+      login: a@mail.ru
+      password: 123

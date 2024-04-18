@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingproductunit}">Adding a product unit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{productunitcard}">Product unit's card</h3>
+
+    <table>
+        <caption><h3 th:text="#{product}">Product</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{category}">Category</th>
+            <th th:text="#{baseunit}">Base unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.category.getName()}"></td>
+            <td th:text="${product.baseUnit.getShortName()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/><br/>
+
+    <form method="post" th:action="@{/productunits}" th:object="${productUnit}">
+        <input hidden id="productId" name="productId" th:value="${product.id}" type="number">
+        <label for="ratio"><span th:text="#{ratio}"></span>:
+            <input id="ratio" name="ratio" placeholder="0.0" step="0.01" th:value="*{ratio}" type="number">
+        </label><br><br>
+        <label for="unit"><span th:text="#{unit}"></span>:
+            <select id="unit" name="unitId">
+                <option th:each="unit : ${units}" th:text="${unit.name}" th:value="${unit.id}"></option>
+            </select>
+        </label><br/><br/>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

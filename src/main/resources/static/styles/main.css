@@ -1,0 +1,29 @@
+img {
+    width: 200px;
+}
+
+td {
+    border: 1px solid gray;
+}
+
+th {
+    border: 1px solid gray;
+    text-align: center;
+}
+
+.blueStyle {
+    border: 2px solid darkblue;
+
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.errorStyle {
+    color: red;
+}

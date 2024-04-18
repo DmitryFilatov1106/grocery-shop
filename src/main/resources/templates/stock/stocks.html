@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{stock}">Stock</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/stock">
+        <label for="product"><span th:text="#{filt.product}">Product:</span>
+            <select id="product" name="productId">
+                <option th:each="product : ${products}"
+                        th:selected="${product.id == filter.productId}"
+                        th:text="${product.name}"
+                        th:value="${product.id}"></option>
+            </select>
+        </label>
+        <label for="quality"><span th:text="#{filt.quality}">Quality:</span>
+            <select id="quality" name="qualityId">
+                <option th:each="quality : ${qualities}"
+                        th:selected="${quality.id == filter.qualityId}"
+                        th:text="${quality.name}"
+                        th:value="${quality.id}"></option>
+            </select>
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/stock">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{stock}">Stock</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{product}">Product</th>
+            <th th:text="#{quality}">Quality</th>
+            <th th:text="#{baseunit}">Base unit</th>
+            <th th:text="#{amount}">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stock : ${data.content}">
+            <td th:text="${stock.id}"></td>
+            <td th:text="${stock.product}"></td>
+            <td th:text="${stock.quality}"></td>
+            <td th:text="${stock.unit}"></td>
+            <td th:text="${stock.storeAmount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

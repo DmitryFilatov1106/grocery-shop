@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editProject}">Project edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{projectcard}">Project's card</h3>
+    <form method="post" th:action="@{/projects/{idProject}/update(idProject=${project.id})}" th:object="${project}">
+        <label for="id"><span th:text="#{id}"></span>:
+            <input id="id" name="id" readonly th:value="*{id}" type="number">
+        </label><br/><br/>
+        <label for="name"><span th:text="#{name}"></span>:
+            <input id="name" name="name" th:value="*{name}" type="text">
+        </label><br><br>
+        <label for="promanager"><span th:text="#{promanager}"></span>:
+            <select id="promanager" name="promanagerId">
+                <option th:each="promanager : ${promanagers}"
+                        th:selected="${promanager.id == project.proManager.id}" th:text="${promanager.lastname+' '+promanager.firstname}"
+                        th:value="${promanager.id}"></option>
+            </select>
+        </label><br/><br/>
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

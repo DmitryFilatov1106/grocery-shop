@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{customers}">Customers</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/customers">
+        <label for="name"><span th:text="#{filt.name}">Name:</span>
+            <input id="name" name="name" th:value="${filter.name}" type="text">
+        </label>
+        <label for="status"><span th:text="#{filt.status}">Status:</span>
+            <select id="status" name="status">
+                <option th:each="status : ${statuses}" th:selected="${status == filter.status}"
+                        th:text="${status}"></option>
+            </select>
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/customers">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{customers}">Customers</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{status}">Status</th>
+            <th th:text="#{manager}">Manager</th>
+            <th colspan="2">
+                <a href="/customers/add" th:text="#{addCustomer}">add customer</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${data.content}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.status}"></td>
+            <td th:if="${customer.manager}" th:text="${customer.manager}"></td>
+            <td th:unless="${customer.manager}">-</td>
+            <td>
+                <a th:href="@{|/customers/${customer.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/customers/${customer.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

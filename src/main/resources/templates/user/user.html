@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editUser}">User edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{usercard}">User's card</h3>
+    <form enctype="multipart/form-data" method="post" th:action="@{/users/{idUser}/update(idUser=${user.id})}"
+          th:object="${user}">
+        <label for="id"><span th:text="#{id}"></span>:
+            <input id="id" name="id" readonly th:value="*{id}" type="number">
+        </label><br/><br/>
+        <label for="username"><span th:text="#{username}"></span>:
+            <input id="username" name="username" th:value="*{username}" type="text">
+        </label><br/><br/>
+        <label for="rawPassord"><span th:text="#{password}"></span>:
+            <input id="rawPassord" name="rawPassord" type="password">
+        </label><br/><br/>
+        <label for="firstname"><span th:text="#{firstname}"></span>:
+            <input id="firstname" name="firstname" th:value="*{firstname}" type="text">
+        </label><br/><br/>
+        <label for="lastname"><span th:text="#{lastname}"></span>:
+            <input id="lastname" name="lastname" th:value="*{lastname}" type="text">
+        </label><br/><br/>
+        <label for="birthDay"><span th:text="#{birthDay}"></span>:
+            <input id="birthDay" name="birthDay" th:value="*{birthDay}" type="date">
+        </label><br/><br/>
+        <label for="role"><span th:text="#{role}"></span>:
+            <select id="role" name="role">
+                <option th:each="role : ${roles}" th:selected="${role == user.role}"
+                        th:text="${role}"></option>
+            </select>
+        </label><br/><br/>
+
+        <div th:if="${user.image != null}">
+            <img alt="User image" th:src="@{/api/v1/users/{userId}/image(userId=*{id})}">
+        </div>
+        <label for="image"><span th:text="#{image}"></span>:
+            <input id="image" name="image" type="file">
+        </label><br><br>
+
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: address}"></div>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

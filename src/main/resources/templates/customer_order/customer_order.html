@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editCustomerOrder}">Customer order edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{customerordercard}">Customer order's card</h3>
+    <div th:insert="~{fragment_customer_order :: customerOrderHead}"></div>
+    <br/>
+    <div th:insert="~{fragment_customer_order :: customerOrderBottom}"></div>
+    <div class="errorStyle" th:if="${error}">
+        <span th:text="|#{stock.error}: ${error}|"> </span>
+    </div>
+</div>
+</body>
+</html>

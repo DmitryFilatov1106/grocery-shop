@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--<div th:fragment="locale">-->
+<!--    <form action="">-->
+<!--        <label><span th:text="#{lang}"></span>:-->
+<!--            <input type="radio" value="en" name="lang" onchange="this.form.submit()"/>EN-->
+<!--            <input type="radio" value="ru" name="lang" onchange="this.form.submit()"/>RU-->
+<!--        </label>-->
+<!--    </form>-->
+<!--</div>-->
+
+<div th:fragment="locale">
+    <form action="">
+        <label for="lang">
+            <select id="lang" name="lang" onchange="this.form.submit()">
+                <option th:each="ln : ${#strings.arraySplit(' ,en,ru',',')}"
+                        th:selected="${#strings.equals(param.get('lang'),ln)}"
+                        th:text="${#strings.toUpperCase(ln)}"
+                        th:value="${ln}"></option>
+            </select>
+        </label>
+    </form>
+    <br/><br/>
+</div>
+
+
+<div th:fragment="logout">
+    <form method="post" th:action="@{/logout}">
+        <button th:text="#{logout}" type="submit"></button>
+        <span th:text="${#authentication.principal.username}">Username</span>
+    </form>
+</div>
+
+<div th:fragment="menu">
+    <div th:insert="~{fragment :: locale}"></div>
+    <div th:insert="~{fragment :: logout}"></div>
+    <br>
+    <form action="/changepassword">
+        <button th:text="#{changepassword}" type="submit"></button>
+    </form>
+
+
+    <h2 th:text="#{menu.header}">* Grocery Shop *</h2>
+    <div class="blueStyle">
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''MANAGER''})')}">
+            <a href="/customers"><span th:text="#{menu.customers}">Customers</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''PROJECT_MANAGER''})')}">
+            <span>|</span>
+            <a href="/projects"><span th:text="#{menu.projects}">Projects</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''MANAGER''})')}">
+            <span>|</span>
+            <a href="/categories"><span th:text="#{menu.categories}">Categories</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''STOREKEEPER''})')}">
+            <span>|</span>
+            <a href="/units"><span th:text="#{menu.units}">Units of measure</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''STOREKEEPER''})')}">
+            <span>|</span>
+            <a href="/qualities"><span th:text="#{menu.qualities}">Quality</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''STOREKEEPER'', ''MANAGER''})')}">
+            <span>|</span>
+            <a href="/products"><span th:text="#{menu.products}">Products</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''STOREKEEPER''})')}">
+            <span>|</span>
+            <a href="/providerorders"><span th:text="#{menu.providerorders}">Provider orders</span></a>
+        </span>
+
+        <span th:if="${#authorization.expression('hasAnyAuthority({''ADMIN'', ''PROJECT_MANAGER'', ''MANAGER''})')}">
+            <span>|</span>
+            <a href="/customerorders"><span th:text="#{menu.customerorders}">Customer orders</span></a>
+        </span>
+
+        <span>|</span>
+        <a href="/stock"><span th:text="#{menu.stock}">Stock</span></a>
+
+        <span th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+            <span>|</span>
+            <a href="/users"><span th:text="#{menu.users}">Users</span></a>
+
+            <span>|</span>
+            <a href="/api/v1/shutdown"><span th:text="#{menu.shutdown}">Shutdown</span></a>
+        </span>
+    </div>
+</div>
+
+<div th:fragment="page">
+    <span th:text="|#{page}: ${data.getMetadata().page + 1} [|"></span>
+    <span th:each="page : ${allPages}">
+            <a th:href="@{|/${mapping}?page=${page}${parfilter}|}" th:text="${page+1}"></a>
+        </span>
+    <span>]</span>
+    <br>
+    <span th:if="${data.getMetadata().page > 0}">
+            <a th:href="@{|/${mapping}?page=${data.getMetadata().page - 1}${parfilter}|}"
+               th:text="#{previous}">previous</a>
+    </span>
+    <span th:text="#{previous}" th:unless="${data.getMetadata().page > 0}">previous</span>
+    <span> . . . </span>
+    <span th:if="${data.getMetadata().page < data.getMetadata().totalPages - 1}">
+            <a th:href="@{|/${mapping}?page=${data.getMetadata().page + 1}${parfilter}|}" th:text="#{next}">next</a>
+    </span>
+    <span th:text="#{next}" th:unless="${data.getMetadata().page < data.getMetadata().totalPages - 1}">next</span>
+</div>
+
+<div th:fragment="error">
+    <div class="errorStyle" th:if="${errors}">
+        <p th:each="error : ${errors}" th:text="${error.defaultMessage}"></p>
+    </div>
+</div>
+
+<div th:fragment="errorLine">
+    <div class="errorStyle" th:if="${errorsLine}">
+        <p th:each="error : ${errorsLine}" th:text="${error.defaultMessage}"></p>
+    </div>
+</div>
+
+<div th:fragment="address">
+    <br>
+    <div th:if="${address.addressDto}">
+        <a th:href="@{|/${address.addressFor}|}" th:text="|#{address}: ${address.addressDto.postalCode},
+        ${address.addressDto.region},
+        ${address.addressDto.city},
+        ${address.addressDto.street}
+        ${address.addressDto.house}|"></a>
+    </div>
+    <div th:unless="${address.addressDto}">
+        <a th:href="@{|/${address.addressFor}|}" th:text="|#{address} -|"></a>
+    </div>
+</div>
+
+</body>
+</html>

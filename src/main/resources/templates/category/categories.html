@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{categories}">Categories</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/categories">
+        <label for="name"><span th:text="#{filt.name}">Name:</span>
+            <input id="name" name="name" th:value="${filter.name}" type="text">
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/categories">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{categories}">Categories</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th colspan="2">
+                <a href="/categories/add" th:text="#{addCategory}">add category</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${data.content}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a th:href="@{|/categories/${category.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/categories/${category.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

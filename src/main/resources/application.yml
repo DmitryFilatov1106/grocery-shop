@@ -1,0 +1,43 @@
+server.port: 8080
+spring:
+  profiles.active: prod
+
+  main.banner-mode: off
+  mvc.format.date: iso
+  servlet.multipart.max-file-size: 10MB
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        javax.cache.missing_cache_strategy: create
+        generate_statistics: false
+        format_sql: true
+        show_sql: true
+        hbm2ddl.auto: validate
+        cache:
+          use_second_level_cache: true
+          region.factory_class: org.hibernate.cache.jcache.internal.JCacheRegionFactory
+          provider_configuration_file_resource_path: classpath:ehcache/ehcache-config.xml
+          use_query_cache: true
+          use_structured_entries: true
+
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yml
+    enabled: true
+    default-schema: public
+
+logging:
+  level:
+    root: warn
+    ru.fildv.groceryshop.aop.LoggingAspect: info
+    ru.fildv.groceryshop.service.UserService: info
+    ru.fildv.groceryshop.http.rest.ShutdownController: info
+    ru.fildv.groceryshop.config.component.CommandLineRunnerImpl: info
+    org:
+      hibernate:
+        type: trace
+
+app:
+  page.size: 5

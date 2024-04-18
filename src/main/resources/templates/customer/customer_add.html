@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingCustomer}">Adding a customer</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{customercard}">Customer's card</h3>
+    <form autocomplete="off" method="post" th:action="@{/customers}" th:object="${customer}">
+        <label for="name"><span th:text="#{name}"></span>:
+            <input id="name" name="name" th:value="*{name}" type="text">
+        </label><br/><br/>
+        <label for="contract"><span th:text="#{contract}"></span>:
+            <input id="contract" name="contract" th:value="*{contract}" type="text">
+        </label><br/><br/>
+        <label for="customerSince"><span th:text="#{customersince}"></span>:
+            <input id="customerSince" name="customerSince" th:value="*{customerSince}" type="date">
+        </label><br/><br/>
+        <label for="status"><span th:text="#{status}"></span>:
+            <select id="status" name="status">
+                <option th:each="status : ${statuses}" th:text="${status}"></option>
+            </select>
+        </label><br/><br/>
+        <label for="manager"><span th:text="#{manager}"></span>:
+            <select id="manager" name="managerId">
+                <option th:each="manager : ${managers}"
+                        th:text="${manager.lastname+' '+manager.firstname}" th:value="${manager.id}"></option>
+            </select>
+        </label><br/><br/>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

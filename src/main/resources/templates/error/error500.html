@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 500</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div class="errorStyle">
+    <h1 th:text="#{server.error}">Error on the server!</h1>
+    <br>
+    <form action="/start">
+        <button th:text="#{start}" type="submit">Start</button>
+    </form>
+</div>
+</body>
+</html>

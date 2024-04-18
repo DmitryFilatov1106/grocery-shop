@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editAddress}">Address edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{addresscard}">Address's card</h3>
+    <h4 th:text="${description}"></h4>
+    <form method="post" th:action="@{/addresses/{id}/{addressFor}(id=${id}, addressFor=${addressFor})}">
+        <input hidden id="description" name="description" th:value="${description}" type="text">
+        <label for="region"><span th:text="#{region}"></span>:
+            <input id="region" name="region" th:value="${region}" type="text">
+        </label><br><br>
+        <label for="city"><span th:text="#{city}"></span>:
+            <input id="city" name="city" th:value="${city}" type="text">
+        </label><br><br>
+        <label for="street"><span th:text="#{street}"></span>:
+            <input id="street" name="street" th:value="${street}" type="text">
+        </label><br><br>
+        <label for="house"><span th:text="#{house}"></span>:
+            <input id="house" name="house" th:value="${house}" type="text">
+        </label><br><br>
+        <label for="postalCode"><span th:text="#{postalCode}"></span>:
+            <input id="postalCode" name="postalCode" th:value="${postalCode}" type="text">
+        </label><br><br>
+
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{products}">Products</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/products">
+        <label for="name"><span th:text="#{filt.name}">Name:</span>
+            <input id="name" name="name" th:value="${filter.name}" type="text">
+        </label>
+        <label for="category"><span th:text="#{filt.category}">Name:</span>
+            <select id="category" name="categoryId">
+                <option th:each="category : ${categories}"
+                        th:selected="${category.id == filter.categoryId}"
+                        th:text="${category.name}"
+                        th:value="${category.id}"></option>
+            </select>
+        </label>
+
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/products">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{products}">Products</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{category}">Category</th>
+            <th th:text="#{instock}">In stock</th>
+            <th th:text="#{baseunit}">Base unit</th>
+            <th colspan="2">
+                <a href="/products/add" th:text="#{addProduct}">add product</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${data.content}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.category}"></td>
+            <td th:text="${product.storeAmount}"></td>
+            <td th:text="${product.baseUnit}"></td>
+            <td>
+                <a th:href="@{|/products/${product.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/products/${product.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

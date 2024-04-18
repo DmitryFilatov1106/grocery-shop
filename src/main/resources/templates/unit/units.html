@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{units}">Units</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/units">
+        <label for="name"><span th:text="#{filt.name}">Name:</span>
+            <input id="name" name="name" th:value="${filter.name}" type="text">
+        </label>
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/units">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{units}">Units</h3></caption>
+        <thead>
+        <tr>
+            <th th:text="#{id}">ID</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{shortname}">Short name</th>
+            <th colspan="2">
+                <a href="/units/add" th:text="#{addUnit}">add unit</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="unit : ${data.content}">
+            <td th:text="${unit.id}"></td>
+            <td th:text="${unit.name}"></td>
+            <td th:text="${unit.shortName}"></td>
+            <td>
+                <a th:href="@{|/units/${unit.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/units/${unit.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eh:config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:eh='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd">
+
+    <eh:cache alias="category" uses-template="simple"/>
+    <eh:cache alias="quality" uses-template="simple"/>
+
+    <eh:cache-template name="simple">
+        <eh:expiry>
+            <eh:ttl unit="minutes">10</eh:ttl>
+        </eh:expiry>
+        <eh:resources>
+            <eh:offheap unit="MB">50</eh:offheap>
+            <eh:disk persistent="true" unit="GB">1</eh:disk>
+        </eh:resources>
+        <eh:heap-store-settings>
+            <eh:max-object-graph-size>2000</eh:max-object-graph-size>
+            <eh:max-object-size unit="kB">5</eh:max-object-size>
+        </eh:heap-store-settings>
+    </eh:cache-template>
+</eh:config>

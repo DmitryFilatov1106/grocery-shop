@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{providerorders}">Provider orders</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <form action="/providerorders">
+        <label for="id">№:
+            <input id="id" name="id" th:value="${filter.id}" type="number">
+        </label>
+        <label for="fromOrderDate"><span th:text="#{filt.date}"></span>
+            <input id="fromOrderDate" name="fromOrderDate" th:value="${filter.fromOrderDate}" type="date">
+        </label>
+        <label for="toOrderDate"><span th:text="#{filt.to}"></span>
+            <input id="toOrderDate" name="toOrderDate" th:value="${filter.toOrderDate}" type="date">
+        </label>
+        <label for="comment"><span th:text="#{filt.comment}"></span>
+            <input id="comment" name="comment" th:value="${filter.comment}" type="text">
+        </label>
+
+        <button th:text="#{filt}" type="submit">Filter</button>
+        <a href="/providerorders">[X]</a>
+    </form>
+    <table>
+        <caption><h3 th:text="#{providerorders}">Provider orders</h3></caption>
+        <thead>
+        <tr>
+            <th>№</th>
+            <th th:text="#{date}">Date</th>
+            <th th:text="#{commit}">Commit</th>
+            <th th:text="#{comment}">Comment</th>
+            <th colspan="2">
+                <a href="/providerorders/add" th:text="#{addProviderOrder}">add provider order</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="providerorder : ${data.content}">
+            <td th:text="${providerorder.id}"></td>
+            <td th:text="${providerorder.SOrderDate}"></td>
+            <td th:text="${providerorder.SCommit}"></td>
+            <td th:text="${providerorder.comment}"></td>
+            <td>
+                <a th:href="@{|/providerorders/${providerorder.id}|}" th:text="#{edit}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/providerorders/${providerorder.id}/delete|}" th:text="#{delete}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:insert="~{fragment :: page}"></div>
+</div>
+</body>
+</html>

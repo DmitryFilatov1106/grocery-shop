@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{editCustomer}">Customer edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{customercard}">Customer's card</h3>
+    <form autocomplete="off" method="post"
+          th:action="@{/customers/{idCustomer}/update(idCustomer=${customer.id})}" th:object="${customer}">
+        <label for="id"><span th:text="#{id}"></span>:
+            <input id="id" name="id" readonly th:value="*{id}" type="number">
+        </label><br/><br/>
+        <label for="name"><span th:text="#{name}"></span>:
+            <input id="name" name="name" th:value="*{name}" type="text">
+        </label><br/><br/>
+        <label for="contract"><span th:text="#{contract}"></span>:
+            <input id="contract" name="contract" th:value="*{contract}" type="text">
+        </label><br/><br/>
+        <label for="customerSince"><span th:text="#{customersince}"></span>:
+            <input id="customerSince" name="customerSince" th:value="*{customerSince}" type="date">
+        </label><br/><br/>
+        <label for="status"><span th:text="#{status}"></span>:
+            <select id="status" name="status">
+                <option th:each="status : ${statuses}" th:selected="${status == customer.status}"
+                        th:text="${status}"></option>
+            </select>
+        </label><br/><br/>
+        <label for="manager"><span th:text="#{manager}"></span>:
+            <select id="manager" name="managerId">
+                <option th:each="manager : ${managers}"
+                        th:selected="${manager.id == customer.manager.id}" th:text="${manager.lastname+' '+manager.firstname}"
+                        th:value="${manager.id}"></option>
+            </select>
+        </label><br/><br/>
+        <button th:text="#{save}" type="submit">save</button>
+    </form>
+    <div th:insert="~{fragment :: address}"></div>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

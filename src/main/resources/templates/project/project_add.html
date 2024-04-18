@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addingProject}">Adding a project</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<div class="blueStyle">
+    <h3 th:text="#{projectcard}">Project's card</h3>
+    <form autocomplete="off" method="post" th:action="@{/projects}" th:object="${project}">
+        <label for="name"><span th:text="#{name}"></span>:
+            <input id="name" name="name" th:value="*{name}" type="text">
+        </label><br/><br/>
+        <label for="promanager"><span th:text="#{promanager}"></span>:
+            <select id="promanager" name="promanagerId">
+                <option th:each="promanager : ${promanagers}"
+                        th:text="${promanager.lastname+' '+promanager.firstname}" th:value="${promanager.id}"
+                </option>
+            </select>
+        </label><br/><br/>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adding a productComment</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<h3>Comment's card</h3>
+<form autocomplete="off" method="post" th:action="@{/comments}" th:object="${productComment}">
+
+    <input hidden id="productId" name="productId" readonly th:value="${product.id}" type="number">
+
+    <label for="productName">Product name:
+        <input id="productName" name="productName" readonly th:value="${product.name}" type="text">
+    </label><br><br>
+    <label for="productPrice">Product price:
+        <input id="productPrice" name="productPrice" placeholder="0.0" readonly step="0.01"
+               th:value="${product.price}" type="number">
+    </label><br><br>
+
+    <label for="text">Comment:
+        <input id="text" name="text" th:value="*{text}" type="text">
+    </label><br><br>
+
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

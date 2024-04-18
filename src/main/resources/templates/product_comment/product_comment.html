@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment edit</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: menu}"></div>
+
+<h3>Comment's card</h3>
+<form autocomplete="off"
+      method="post"
+      th:action="@{/comments/{idProduct}/{idComment}/update(idProduct=${productComment.productId}, idComment=${productComment.id})}" th:object="${productComment}">
+    <input hidden id="id" name="productId" readonly th:value="*{productId}" type="number">
+    <label for="name">Product name:
+        <input id="name" name="productName" readonly th:value="*{productName}" type="text">
+    </label><br><br>
+    <label for="price">Product price:
+        <input id="price" name="productPrice" placeholder="0.0" readonly step="0.01" th:value="*{productPrice}"
+               type="number">
+    </label><br><br>
+    <label for="text">Comment:
+        <input id="text" name="text" th:value="*{text}" type="text">
+    </label><br><br>
+
+    <button type="submit">Ok</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{registration}">Registration</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:insert="~{fragment :: locale}"></div>
+<h2 th:text="#{menu.header}">* Grocery Shop *</h2>
+<br>
+<div class="blueStyle">
+    <h3 th:text="#{newusercard}">New user's card</h3>
+    <form autocomplete="off" enctype="multipart/form-data" method="post" th:action="@{/registration}"
+          th:object="${user}">
+        <label for="username"><span th:text="#{username}"></span>:
+            <input id="username" name="username" th:value="*{username}" type="text">
+        </label><br/><br/>
+        <label for="rawPassord"><span th:text="#{password}"></span>:
+            <input id="rawPassord" name="rawPassord" type="password">
+        </label><br/><br/>
+        <label for="firstname"><span th:text="#{firstname}"></span>:
+            <input id="firstname" name="firstname" th:value="*{firstname}" type="text">
+        </label><br/><br/>
+        <label for="lastname"><span th:text="#{lastname}"></span>:
+            <input id="lastname" name="lastname" th:value="*{lastname}" type="text">
+        </label><br/><br/>
+        <label for="birthDay"><span th:text="#{birthDay}"></span>:
+            <input id="birthDay" name="birthDay" th:value="*{birthDay}" type="date">
+        </label><br/><br/>
+
+        <input hidden id="role" name="role" th:value="${role}" type="text">
+
+        <label for="image"><span th:text="#{image}"></span>:
+            <input id="image" name="image" type="file">
+        </label><br><br>
+
+        <button th:text="#{add}" type="submit">Add</button>
+    </form>
+    <div th:insert="~{fragment :: error}"></div>
+    <br/>
+    <form action="/login">
+        <button th:text="#{login}" type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>
